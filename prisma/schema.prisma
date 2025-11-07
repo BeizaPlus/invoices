@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ApiKey {
+  id        String    @id @default(cuid())
+  name      String
+  key       String    @unique
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("api_keys")
+}
+
+model Company {
+  id          String     @id @default(cuid())
+  name        String
+  logo        String?
+  accent      String     @default("#ef4444")
+  accentDark  String     @default("#b91c1c")
+  logoWidth   String     @default("560px")
+  contactHTML String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  bankName    String?
+  currency    String?
+  accName     String?
+  accNo       String?
+  branch      String?
+  swift       String?
+  vatTin      String?
+  invoices    Invoice[]
+  templates   Template[]
+
+  @@map("companies")
+}
+
+model Client {
+  id        String    @id @default(cuid())
+  name      String
+  cc        String
+  shipTo    String
+  shipCc    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  invoices  Invoice[]
+
+  @@map("clients")
+}
+
+model Invoice {
+  id            String     @id @default(cuid())
+  invoiceNumber String?    @unique
+  docType       String
+  status        String
+  project       String     @default("")
+  qty           Float      @default(0)
+  rate          Float      @default(0)
+  paid          Float      @default(0)
+  discount      Float      @default(0)
+  vat           Float      @default(0)
+  fx            Float      @default(1)
+  delivered     Float?     @default(0)
+  longDesc      String     @default("")
+  params        String     @default("")
+  etaDays       Int        @default(90)
+  showVat       Boolean    @default(true)
+  startDate     DateTime   @default(now())
+  lockTotal     Boolean    @default(false)
+  finalTotal    Float      @default(0)
+  totalInclVat  Boolean    @default(true)
+  logoW         String     @default("560px")
+  clientId      String
+  companyId     String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  company       Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  client        Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  resources     Resource[]
+  tasks         Task[]
+
+  @@map("invoices")
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  name      String
+  dur       Int
+  off       Int
+  dependsOn String?
+  invoiceId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("tasks")
+}
+
+model Resource {
+  id        String   @id @default(cuid())
+  type      String
+  hours     Float
+  rate      Float
+  invoiceId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("resources")
+}
+
+model Template {
+  id        String   @id @default(cuid())
+  name      String
+  data      String
+  style     String
+  companyId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("templates")
+}
+

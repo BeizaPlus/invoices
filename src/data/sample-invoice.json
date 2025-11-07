@@ -1,0 +1,59 @@
+{
+  "docType": "Invoice",
+  "delivered": "0",
+  "selectedClient": "tac",
+  "project": "",
+  "qty": "0",
+  "rate": "0",
+  "paid": "0",
+  "discount": "0",
+  "vat": "0",
+  "fx": "1",
+  "longDesc": "",
+  "params": "",
+  "etaDays": "90",
+  "showVat": true,
+  "startDate": "2025-09-19",
+  "bankName": "GT Bank",
+  "currency": "Ghana Cedi Account",
+  "accName": "PixelCraft Designs",
+  "accNo": "1234",
+  "branch": "KNUST - Ghana",
+  "swift": "",
+  "lockTotal": false,
+  "finalTotal": "0",
+  "totalInclVat": true,
+  "logoW": "268px",
+  "tasks": [
+    {
+      "id": "fmt",
+      "name": "Formatting of Manuscript",
+      "dur": 14,
+      "off": 0
+    },
+    {
+      "id": "layout",
+      "name": "Layout Design",
+      "dur": 28,
+      "off": 7
+    },
+    {
+      "id": "sample",
+      "name": "Sample Delivery",
+      "dur": 7,
+      "off": 35
+    },
+    {
+      "id": "finish",
+      "name": "Print Finishes",
+      "dur": 21,
+      "off": 49
+    },
+    {
+      "id": "ship",
+      "name": "Shipping Window",
+      "dur": 45,
+      "off": 70
+    }
+  ]
+}
